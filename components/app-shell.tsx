@@ -32,14 +32,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="fixed inset-0 flex w-full lg:h-screen lg:overflow-hidden">
       {/* Desktop sidebar */}
-      <aside className="hidden w-64 flex-col border-r bg-sidebar lg:flex">
-        <div className="flex h-16 items-center gap-2 px-5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+      <aside className="hidden w-64 flex-col border-r bg-sidebar lg:sticky lg:top-0 lg:flex lg:h-screen lg:overflow-y-auto">
+        <div className="flex h-16 items-center gap-2.5 px-5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
             <FileTextIcon className="h-5 w-5" />
           </div>
-          <span className="text-lg font-semibold tracking-tight">Doc Guru</span>
+          <span className="text-lg font-semibold tracking-tight text-sidebar-foreground">Doc Guru</span>
         </div>
         <Separator />
         <nav className="flex flex-1 flex-col gap-1 p-3">
@@ -50,31 +50,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
                   active
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    ? "bg-sidebar-primary/10 text-sidebar-primary"
                     : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 )}
               >
-                <item.icon className="h-4 w-4" />
+                {active && (
+                  <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full bg-sidebar-primary" />
+                )}
+                <item.icon
+                  className={cn(
+                    "h-4 w-4 transition-colors",
+                    active ? "text-sidebar-primary" : "text-muted-foreground group-hover:text-sidebar-accent-foreground"
+                  )}
+                />
                 {item.label}
               </Link>
             );
           })}
         </nav>
         <div className="p-3">
-          <div className="flex items-center justify-between rounded-lg border bg-card p-3">
-            <span className="text-xs text-muted-foreground">Theme</span>
+          <div className="flex items-center justify-between rounded-lg border border-sidebar-border bg-card p-3">
+            <span className="text-xs font-medium text-muted-foreground">Theme</span>
             <ThemeToggle />
           </div>
         </div>
       </aside>
 
-      {/* Mobile header */}
-      <div className="flex flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 lg:hidden">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+      {/* Main wrapper */}
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
+        {/* Mobile header */}
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b bg-background px-4 lg:hidden">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
               <FileTextIcon className="h-5 w-5" />
             </div>
             <span className="text-lg font-semibold tracking-tight">Doc Guru</span>
@@ -111,7 +120,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
         )}
 
-        <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+          {children}
+        </main>
       </div>
     </div>
   );

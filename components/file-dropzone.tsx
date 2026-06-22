@@ -66,41 +66,41 @@ export function FileDropzone({
       <div
         {...getRootProps()}
         className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-colors",
+          "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-all duration-200",
           isDragActive
-            ? "border-primary bg-primary/5"
-            : "border-border bg-muted/40 hover:bg-muted/60"
+            ? "border-primary bg-primary/[0.05]"
+            : "border-border bg-muted/40 hover:border-primary/30 hover:bg-muted/70"
         )}
       >
         <input {...getInputProps()} />
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-          <UploadCloudIcon className="h-6 w-6 text-primary" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors">
+          <UploadCloudIcon className="h-6 w-6" />
         </div>
         <div className="text-center">
-          <p className="font-medium">{isDragActive ? "Drop them here" : label}</p>
+          <p className="font-medium text-foreground">{isDragActive ? "Drop them here" : label}</p>
           <p className="text-sm text-muted-foreground">{sublabel}</p>
         </div>
       </div>
 
       {files.length > 0 && (
-        <ul className="divide-y rounded-xl border">
+        <ul className="divide-y divide-border/60 rounded-xl border border-border/60 bg-card shadow-sm">
           {files.map((qf) => (
-            <li key={qf.id} className="flex items-center justify-between px-4 py-3">
+            <li key={qf.id} className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/40">
               <div className="flex min-w-0 items-center gap-3">
                 {qf.preview ? (
                   <img
                     src={qf.preview}
                     alt={qf.file.name}
-                    className="h-10 w-10 rounded-md object-cover"
+                    className="h-10 w-10 rounded-md object-cover ring-1 ring-border"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-muted text-xs font-bold">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-muted text-xs font-bold text-muted-foreground">
                     {qf.file.name.split(".").pop()?.toUpperCase()}
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium">{qf.file.name}</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="truncate text-sm font-medium text-foreground">{qf.file.name}</p>
+                  <p className="text-xs tabular-nums text-muted-foreground">
                     {(qf.file.size / 1024).toFixed(1)} KB
                   </p>
                 </div>

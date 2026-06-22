@@ -13,18 +13,18 @@ interface ToolCardProps {
 
 export function ToolCard({ href, icon: Icon, title, description, tags }: ToolCardProps) {
   return (
-    <Link href={href}>
-      <Card className="group h-full transition-colors hover:border-primary/50 hover:bg-primary/[0.02]">
+    <Link href={href} className="group block h-full">
+      <Card className="h-full border-border/60 bg-card shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
         <CardContent className="flex h-full flex-col p-5">
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
             <Icon className="h-5 w-5" />
           </div>
-          <h3 className="mb-1 text-lg font-semibold">{title}</h3>
-          <p className="mb-4 flex-1 text-sm text-muted-foreground">{description}</p>
+          <h3 className="mb-1 text-base font-semibold tracking-tight text-card-foreground">{title}</h3>
+          <p className="mb-4 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
           {tags && tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                <Badge key={tag} variant="secondary" className="text-xs font-medium">{tag}</Badge>
               ))}
             </div>
           )}
